@@ -51,11 +51,6 @@ tag Boxes
 		<Box id=1>
 
 tag Choice
-	css button mx:5px s:42px fs:2xl ff:arial
-		rd:xl bd:none bgc:blue2 cursor:pointer
-	css input w:40px h:38px bd:1px rd:xl ta:center
-		fs:2xl ff:arial bc:blue2 c:warm8
-
 	def computer-move
 		mode == 1 and player == 2
 
@@ -78,16 +73,23 @@ tag Choice
 			e.target.value = 0
 			choices[id] = 0
 
+	css d:hcc
+	css button d:flex ai:center jc:center mx:5px s:42px fs:2xl
+		rd:xl bd:none bgc:blue2 c:warm7 cursor:pointer
+		@disabled c:warm4
+	css input w:40px h:38px bd:1px rd:xl ta:center
+		fs:2xl ff:arial bc:blue2 c:warm8
+
 	<self>
-		<button @click.if(choices[id] > 0)=(--choices[id])
-			disabled=(computer-move())> "-"
+		<button type='button' @click.if(choices[id] > 0)=(--choices[id])
+			disabled=(computer-move())> "−"
 		<input id="choice-{id}" type="text" bind=choices[id]
 			autocomplete="off"
 			@keyup=change-value
 			@focus=empty-if-zero
 			@blur=zero-if-empty
 			disabled=(computer-move())>
-		<button @click.if(choices[id] < biscuits[id])=(++choices[id])
+		<button type='button' @click.if(choices[id] < biscuits[id])=(++choices[id])
 			disabled=(computer-move())> "+"
 
 tag Choices
@@ -98,13 +100,6 @@ tag Choices
 		<Choice id=1>
 
 tag Actions
-	css d:hcc jc:space-around mt:5px
-	css button w:140px m:15px h:42px fs:xl
-		rd:xl bd:none cursor:pointer
-	css	.take bgc:blue2 w:290px
-	css	.reset h:38px bgc:cooler2 c:warm7 fs:lg mx:5px
-		@disabled c:warm4
-
 	get action-text
 		if mode == 2 or player == 1 then "Take Biscuits" else "Continue"
 
@@ -164,6 +159,13 @@ tag Actions
 					break
 			best-choice
 
+	css d:hcc jc:space-around mt:5px
+	css button w:140px m:15px h:42px fs:xl
+		rd:xl bd:none cursor:pointer c:warm7
+		@disabled c:warm5
+	css	.take bgc:blue2 w:290px
+	css	.reset h:38px bgc:cooler2 fs:lg mx:5px
+
 	<self[d:vcc]>
 		<button.take @click=take-biscuits disabled=invalid-choices> action-text
 		<div[d:hcc]>
@@ -196,7 +198,7 @@ tag app
 			{<br>} any number of biscuits from only one jar or
 			{<br>} any equal number of biscuits from both jars."
 			<p> "Player who takes the last biscuit wins."
-		<div[mb:20px c:amber9 fs:lg]> message
+		<div[mb:20px c:amber9 fs:xl]> message
 		<Boxes>
 		<Choices>
 		<Actions>
